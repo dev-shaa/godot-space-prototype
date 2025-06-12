@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://tuwx5x0rlu2o"]
+
+[ext_resource type="Script" uid="uid://ifd0kklmapp7" path="res://scripts/character_controller.gd" id="1_72ieh"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fp3wc"]
+
+[node name="RigidBody3D" type="RigidBody3D" node_paths=PackedStringArray("rigidbody")]
+script = ExtResource("1_72ieh")
+rigidbody = NodePath(".")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_fp3wc")
