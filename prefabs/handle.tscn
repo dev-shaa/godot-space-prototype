@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgb1sn8l1b5tu"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bu7q7"]
+radius = 0.65
+
+[node name="Handle" type="StaticBody3D"]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_bu7q7")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(0.1, 1, 0.1)

@@ -1,12 +1,45 @@
-[gd_scene load_steps=3 format=3 uid="uid://tuwx5x0rlu2o"]
+[gd_scene load_steps=4 format=3 uid="uid://tuwx5x0rlu2o"]
 
 [ext_resource type="Script" uid="uid://ifd0kklmapp7" path="res://scripts/character_controller.gd" id="1_72ieh"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_fp3wc"]
 
-[node name="RigidBody3D" type="RigidBody3D" node_paths=PackedStringArray("rigidbody")]
-script = ExtResource("1_72ieh")
-rigidbody = NodePath(".")
+[sub_resource type="SphereShape3D" id="SphereShape3D_72ieh"]
+radius = 1.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="Player" type="RigidBody3D" node_paths=PackedStringArray("camera", "push_raycast", "joint")]
+angular_damp = 15.0
+script = ExtResource("1_72ieh")
+camera = NodePath("Camera3D")
+push_raycast = NodePath("Camera3D/RayCast3D")
+joint = NodePath("Generic6DOFJoint3D")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_fp3wc")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+far = 1000.0
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+target_position = Vector3(0, 0, 0.75)
+
+[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="."]
+linear_limit_x/upper_distance = 1.0
+linear_limit_y/upper_distance = 1.0
+linear_limit_z/upper_distance = 1.0
+linear_motor_x/enabled = true
+linear_motor_y/enabled = true
+linear_motor_z/enabled = true
+angular_limit_x/enabled = false
+angular_limit_y/enabled = false
+angular_limit_z/enabled = false
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_72ieh")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
